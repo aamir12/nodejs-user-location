@@ -9,7 +9,7 @@ app.use(cors());
 app.enable("trust proxy");
 
 app.get("/", (req, res) => {
-  logHistory("login", { user: "aamir", req, res });
+  logHistory("login", { user: "aamir" }, req, res);
 });
 
 const PORT = 5001;
