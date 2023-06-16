@@ -19,13 +19,13 @@ const getIp = (req) => {
 };
 
 const logHistory = (logType, userDetail, req, res) => {
-  console.log(req.headers);
-  const isPostmanRequest =
-    req.headers["user-agent"].includes("Postman") ||
-    req.headers["postman-token"];
-  if (isPostmanRequest) {
-    return;
-  }
+  // console.log(req.headers);
+  // const isPostmanRequest =
+  //   req.headers["user-agent"].includes("Postman") ||
+  //   req.headers["postman-token"];
+  // if (isPostmanRequest) {
+  //   return;
+  // }
 
   const ipAddress = getIp(req);
   console.log(`IP ADDRESS ${ipAddress}`);
