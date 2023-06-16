@@ -2,20 +2,18 @@ const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 const UAParser = require("ua-parser-js");
+const { getIp } = require("./utils/functions");
+
 const app = express();
 
 app.use(express.json());
 app.use(cors());
+app.enable("trust proxy");
 
 app.get("/", (req, res) => {
+  const ipAddress = getIp(req);
   axios
-    .get("https://api.ipify.org?format=json")
-    .then((response) => {
-      return response.data.ip;
-    })
-    .then((ipAddress) => {
-      return axios.get(`https://ipapi.co/${ipAddress}/json/`);
-    })
+    .get(`https://ipapi.co/${ipAddress}/json/`)
     .then(function (response) {
       if (response.data.error) {
         console.log("Error in response+++");
