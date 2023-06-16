@@ -12,14 +12,10 @@ app.enable("trust proxy");
 
 app.get("/", (req, res) => {
   const ipAddress = getIp(req);
-
-  console.log(`IP Address ${ipAddress}`);
-
   axios
     .get(`https://ipapi.co/${ipAddress}/json/`)
     .then(function (response) {
       if (response.data.error) {
-        console.log("Error in response+++");
         res.status(500).json({ data: "Local IP", ipAddress });
       } else {
         const userAgent = req.headers["user-agent"];
@@ -36,7 +32,6 @@ app.get("/", (req, res) => {
     })
     .catch(function (error) {
       // handle error
-      console.log("Error===");
       console.log(error);
     })
     .finally(function () {
