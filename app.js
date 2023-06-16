@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 const UAParser = require("ua-parser-js");
-const get_ip = require("ipware")().get_ip;
+const { getIp } = require("./utils/functions");
 
 const app = express();
 
@@ -11,16 +11,16 @@ app.use(cors());
 app.enable("trust proxy");
 
 app.get("/", (req, res) => {
-  // const ipAddress = getIp(req);
-  var ip_info = get_ip(req);
-  console.log(`IP Address ${ip_info}`);
+  const ipAddress = getIp(req);
+
+  console.log(`IP Address ${ipAddress}`);
 
   axios
-    .get(`https://ipapi.co/${ip_info.clientIp}/json/`)
+    .get(`https://ipapi.co/${ipAddress}/json/`)
     .then(function (response) {
       if (response.data.error) {
         console.log("Error in response+++");
-        res.status(500).json({ data: "Local IP", ip_info });
+        res.status(500).json({ data: "Local IP", ipAddress });
       } else {
         const userAgent = req.headers["user-agent"];
         const parser = new UAParser(userAgent);
