@@ -4,7 +4,6 @@ const axios = require("axios");
 const UAParser = require("ua-parser-js");
 const app = express();
 
-app.enable("trust proxy");
 app.use(express.json());
 app.use(cors());
 
