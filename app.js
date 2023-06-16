@@ -1,27 +1,37 @@
 const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
+const UAParser = require("ua-parser-js");
 const app = express();
-const { getIp } = require("./utils/functions");
 
 app.enable("trust proxy");
 app.use(express.json());
 app.use(cors());
 
 app.get("/", (req, res) => {
-  const ipAddress = getIp(req);
-  console.log(ipAddress);
-
   axios
-    .get(`https://ipapi.co/${ipAddress}/json/`)
+    .get("https://api.ipify.org?format=json")
+    .then((response) => {
+      return response.data.ip;
+    })
+    .then((ipAddress) => {
+      return axios.get(`https://ipapi.co/${ipAddress}/json/`);
+    })
     .then(function (response) {
-      // handle success
-      //console.log(response.data);
       if (response.data.error) {
         console.log("Error in response+++");
         res.status(500).json({ data: "Local IP", ipAddress });
       } else {
-        res.status(200).json({ ipAddress, location: response.data });
+        const userAgent = req.headers["user-agent"];
+        const parser = new UAParser(userAgent);
+
+        const result = parser.getResult();
+
+        const os = result.os.name;
+        const browser = result.browser.name;
+        const device = result.device.model || "Unknown Device";
+
+        res.status(200).json({ location: response.data, os, browser, device });
       }
     })
     .catch(function (error) {
@@ -32,6 +42,8 @@ app.get("/", (req, res) => {
     .finally(function () {
       // always executed
     });
+
+  console.log("Running");
 });
 
 const PORT = 5001;
