@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
     .then(function (response) {
       if (response.data.error) {
         console.log("Error in response+++");
-        res.status(500).json({ data: "Local IP", ipAddress });
+        res.status(500).json({ data: "Local IP", ip_info });
       } else {
         const userAgent = req.headers["user-agent"];
         const parser = new UAParser(userAgent);
