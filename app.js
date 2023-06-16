@@ -12,6 +12,7 @@ app.enable("trust proxy");
 
 app.get("/", (req, res) => {
   const ipAddress = getIp(req);
+  console.log(`IP ADDRESS ${ipAddress}`);
   axios
     .get(`https://ipapi.co/${ipAddress}/json/`)
     .then(function (response) {
