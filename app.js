@@ -11,7 +11,7 @@ app.use(cors());
 app.enable("trust proxy");
 
 app.get("/", (req, res) => {
-  const ipAddress = getIp(req);
+  // const ipAddress = getIp(req);
   var ip_info = get_ip(req);
   console.log(`IP Address ${ip_info}`);
 
